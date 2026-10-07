@@ -2,87 +2,76 @@
 
 [![Playwright Tests](https://github.com/alia-abdrahman/playwright-qa-showcase/actions/workflows/playwright.yml/badge.svg)](https://github.com/alia-abdrahman/playwright-qa-showcase/actions/workflows/playwright.yml)
 
-A compact, real end-to-end **test automation framework** built with **Playwright + TypeScript**.
-It demonstrates UI E2E testing (Page Object Model), API testing, cross-browser execution, rich
-HTML reporting, and a CI/CD pipeline on GitHub Actions.
+A small test automation framework built with **Playwright + TypeScript**.
+10 automated tests cover a real web shop end to end, plus a REST API — and they run
+automatically on GitHub Actions on every push.
 
-> Built as a portfolio project to demonstrate a transition from **manual QA** to **automation testing**.
+> Built as a portfolio project to show my move from **manual QA** to **automation testing**.
 
 ---
 
-## 🚀 What this project demonstrates
+## ▶️ How to run it
 
-| Capability | Where to find it | Why it matters in a QA role |
+```bash
+npm install              # install, one time
+npx playwright install   # download the browser, one time
+
+npm test                 # run all 10 tests (takes a few seconds)
+npm run test:headed      # watch the browser drive itself — best for a demo
+npm run report           # open the HTML report from the last run
+```
+
+Only part of the suite:
+
+```bash
+npm run test:ui          # the 8 browser tests
+npm run test:api         # the 2 API tests
+```
+
+---
+
+## 🚀 What it covers
+
+| What | Where | Why it matters |
 |---|---|---|
-| **UI End-to-End testing** | `tests/ui/checkout.spec.ts` | Full user journey: login → cart → checkout → confirmation |
-| **Page Object Model (POM)** | `pages/` | Maintainable framework design — locators in one place |
-| **Data-driven testing** | `data/users.ts` + `tests/ui/login.spec.ts` | One test block → many scenarios (positive + negative) |
-| **API testing** | `tests/api/booking.spec.ts` | Auth token + full CRUD, no browser needed |
-| **Cross-browser** | `playwright.config.ts` | Same tests on Chromium, Firefox & WebKit |
-| **CI/CD pipeline** | `.github/workflows/playwright.yml` | Tests run automatically on every push/PR |
-| **Reporting & debugging** | HTML report + Trace Viewer | Screenshots, video, and step-by-step traces on failure |
+| **End-to-end user journey** | `tests/ui/checkout.spec.ts` | login → add to cart → checkout → order confirmed |
+| **Page Object Model** | `pages/` | Selectors live in one place, so UI changes mean a one-file fix |
+| **Data-driven tests** | `data/users.ts` + `tests/ui/login.spec.ts` | One loop creates 4 tests: 1 positive, 3 negative |
+| **API testing** | `tests/api/booking.spec.ts` | Auth token + create/read/delete, no browser needed |
+| **CI pipeline** | `.github/workflows/playwright.yml` | Tests run on every push and pull request |
+| **Failure evidence** | `playwright.config.ts` | Screenshot, video and replayable trace whenever a test fails |
 
 ---
 
-## 🧱 Project structure
+## 🧱 How it is organised
 
 ```
-playwright-qa-showcase/
-├── pages/                  # Page Object Model — one class per page
-│   ├── LoginPage.ts
-│   ├── InventoryPage.ts
-│   ├── CartPage.ts
-│   └── CheckoutPage.ts
-├── tests/
-│   ├── ui/                 # Browser tests
-│   │   ├── login.spec.ts   # data-driven login (valid + 3 negative cases)
-│   │   ├── cart.spec.ts    # add / remove items
-│   │   └── checkout.spec.ts# full E2E purchase flow
-│   └── api/
-│       └── booking.spec.ts # REST API CRUD + auth
-├── data/users.ts           # test data (data-driven source)
-├── playwright.config.ts    # browsers, reporter, traces, baseURL
-└── .github/workflows/      # CI pipeline
+pages/                    # Page Object Model — one class per page
+  LoginPage.ts
+  InventoryPage.ts        # the products page
+  CartPage.ts
+  CheckoutPage.ts
+tests/
+  ui/login.spec.ts        # data-driven login: valid + 3 invalid cases
+  ui/cart.spec.ts         # add and remove items
+  ui/checkout.spec.ts     # the full purchase journey
+  api/booking.spec.ts     # REST API: auth, create, read, delete
+data/users.ts             # test data, kept out of the test code
+playwright.config.ts      # browser, base URL, reporting, retries
 ```
 
-**Applications under test (public practice sites):**
-- UI: [SauceDemo](https://www.saucedemo.com)
-- API: [restful-booker](https://restful-booker.herokuapp.com)
+Each test file is short on purpose: the "how do I click this" detail sits in `pages/`,
+so the tests themselves read like a description of what a user does.
+
+**Sites under test** (both free public practice sites):
+- UI — [SauceDemo](https://www.saucedemo.com)
+- API — [restful-booker](https://restful-booker.herokuapp.com)
 
 ---
 
-## ▶️ How to run
+## 🛠️ Built with
 
-```bash
-# 1. Install dependencies (one time)
-npm install
-npx playwright install         # downloads the browsers
+Playwright · TypeScript · Node.js · GitHub Actions
 
-# 2. Run everything (all browsers)
-npm test
-
-# Useful variants:
-npm run test:chromium          # just Chromium (fastest)
-npm run test:ui                # only the UI tests
-npm run test:api               # only the API tests
-npm run test:headed            # WATCH the browser drive itself (great for demos)
-npm run test:debug             # step through tests with the Playwright Inspector
-
-# 3. Open the HTML report after a run
-npm run report
-```
-
-Explore how selectors are generated (a great learning tool):
-
-```bash
-npm run codegen                # records your clicks into Playwright code
-```
-
----
-
-## 🛠️ Tech stack
-
-- [Playwright](https://playwright.dev/) `@playwright/test`
-- TypeScript
-- Node.js
-- GitHub Actions (CI)
+Runs on Chromium by default to keep it fast. Firefox and WebKit are two commented-out
+lines in `playwright.config.ts` — uncomment them and the same tests run on all three.

@@ -1,18 +1,22 @@
 {
   "name": "playwright-qa-showcase",
   "version": "1.0.0",
-  "description": "A Playwright + TypeScript test automation framework: UI end-to-end tests built on the Page Object Model, API testing, and CI on GitHub Actions.",
+  "description": "A beginner-friendly Playwright + TypeScript test framework: UI end-to-end tests using the Page Object Model, API tests, and CI on GitHub Actions.",
   "scripts": {
     "test": "playwright test",
     "test:ui": "playwright test tests/ui",
     "test:api": "playwright test tests/api",
     "test:headed": "playwright test --headed",
-    "test:debug": "playwright test --debug",
-    "test:chromium": "playwright test --project=chromium",
-    "report": "playwright show-report",
-    "codegen": "playwright codegen https://www.saucedemo.com"
+    "report": "playwright show-report"
   },
-  "keywords": ["playwright", "typescript", "test-automation", "qa", "e2e", "api-testing"],
+  "keywords": [
+    "playwright",
+    "typescript",
+    "test-automation",
+    "qa",
+    "e2e",
+    "api-testing"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.48.0",

@@ -5,3 +5,6 @@ node_modules/
 /playwright/.cache/
 .DS_Store
 *.log
+
+# My private interview prep notes — kept local, never pushed.
+NOTES-FOR-ME.md

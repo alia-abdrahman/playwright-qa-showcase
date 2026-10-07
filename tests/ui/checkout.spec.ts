@@ -5,16 +5,9 @@ import { CartPage } from '../../pages/CartPage';
 import { CheckoutPage } from '../../pages/CheckoutPage';
 import { STANDARD_USER } from '../../data/users';
 
-/**
- * The flagship END-TO-END test: a full customer journey from login to a completed order.
- *
- * login -> add item -> open cart -> checkout info -> order overview -> finish -> confirmation
- *
- * Run it with `npm run test:headed` to watch the journey in a real browser.
- * Every step is one line because the selectors and waits live in the Page Objects;
- * that readability is the point of the framework.
- */
-test('E2E: a shopper can complete a purchase from login to confirmation', async ({ page }) => {
+// The main end-to-end test: one customer journey, login to order confirmed.
+// Run `npm run test:headed` to watch it happen in a real browser.
+test('a shopper can buy an item from login to confirmation', async ({ page }) => {
   const loginPage = new LoginPage(page);
   const inventoryPage = new InventoryPage(page);
   const cartPage = new CartPage(page);
@@ -30,11 +23,11 @@ test('E2E: a shopper can complete a purchase from login to confirmation', async 
   await inventoryPage.goToCart();
   await cartPage.expectItemInCart('Sauce Labs Backpack');
 
-  // 3. Check out: enter info, review overview, finish.
+  // 3. Check out.
   await cartPage.checkout();
   await checkoutPage.fillInformation('Test', 'User', '50000');
   await checkoutPage.finish();
 
-  // 4. Verify the order completed.
+  // 4. Order confirmed.
   await checkoutPage.expectOrderComplete();
 });
